@@ -19,10 +19,14 @@ public class BookmarkApiController {
     private final BookmarkService bookmarkService;
 
     @GetMapping
-    public BookmarksDTO getAllBookMarks(@RequestParam(name= "page", defaultValue = "1") Integer page) {
-        // test - //
-        return  bookmarkService.getAllBookmarks(page);
-    }
+    public BookmarksDTO getAllBookMarks(@RequestParam(name= "page", defaultValue = "1") Integer page,
+                                        @RequestParam(name= "query", defaultValue = "") String query) {
+        if(query == null || query.trim().length() == 0) {
+            return  bookmarkService.getAllBookmarks(page);
+        } else {
+            return bookmarkService.searchBookMark(query, page);
+        }
 
+    }
 
 }

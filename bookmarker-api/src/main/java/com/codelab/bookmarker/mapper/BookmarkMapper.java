@@ -10,11 +10,11 @@ import java.awt.print.Book;
 public class BookmarkMapper {
 
     public BookmarkModel mapToBookmarkModel(Bookmark bookmark) {
-        BookmarkModel model = new BookmarkModel();
-        model.setId(bookmark.getId());
-        model.setTitle(bookmark.getTitle());
-        model.setUrl(bookmark.getUrl());
-        model.setCreatedAt(bookmark.getCreatedAt());
-        return model;
+        return new BookmarkModel(
+                bookmark.getId(),
+                bookmark.getTitle(),
+                bookmark.getUrl(),
+                bookmark.getCreatedAt()
+        );
     }
 }

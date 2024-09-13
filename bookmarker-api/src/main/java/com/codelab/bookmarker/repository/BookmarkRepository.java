@@ -14,4 +14,10 @@ public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
     @Query("select new com.codelab.bookmarker.model.BookmarkModel(b.id, b.title, b.url, b.createdAt) from Bookmark b")
     Page<BookmarkModel> findAllBookMarks(Pageable pageable);
 
+    @Query("select new com.codelab.bookmarker.model.BookmarkModel(b.id, b.title, b.url, b.createdAt) " +
+            " from Bookmark b " +
+            "where lower(b.title) like lower(concat('%',:query,'%'))")
+    Page<BookmarkModel> searchBookMarks(String query, Pageable pageable);
+
+    Page<BookmarkModel> findByTitleContainsIgnoreCase(String query, Pageable pageable);
 }
