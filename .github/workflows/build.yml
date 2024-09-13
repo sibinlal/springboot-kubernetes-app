@@ -17,9 +17,6 @@ jobs:
   build-bookmarker-api:
     name: Build bookmarker-api
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./bookmarker-api
     steps:
       - uses: actions/checkout@v4
 
@@ -30,13 +27,16 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
-      - name: Build with Maven
-        run: ./mvnw verify
+      - name: Fix permissions for Maven Wrapper
+        run: chmod +x ./bookmarker-api/mvnw
 
-      # Build and Publish Docker Image using Dockerfile
+      - name: Build with Maven
+        run: ./bookmarker-api/mvnw verify
+
       - if: ${{ github.ref == 'refs/heads/main' }}
         name: Build and Publish Docker Image
         run: |
+          cd bookmarker-api
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker build -t ${{ secrets.DOCKER_USERNAME }}/bookmarker-api .
           docker push ${{ secrets.DOCKER_USERNAME }}/bookmarker-api
