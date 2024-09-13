@@ -20,6 +20,7 @@ public class BookmarkApiController {
 
     @GetMapping
     public BookmarksDTO getAllBookMarks(@RequestParam(name= "page", defaultValue = "1") Integer page) {
+        // test
         return  bookmarkService.getAllBookmarks(page);
     }
 
